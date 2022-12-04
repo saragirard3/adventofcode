@@ -4,7 +4,7 @@ import java.util.HashMap;
 public class Calories {
     public static void main (String args[]) throws IOException{
 
-        String fileName = "D:\\AdventOfCode\\2022\\1\\input.txt";
+        String fileName = "2022/1/input.txt";
         FileReader path = new FileReader(fileName);
         BufferedReader br = new BufferedReader(path);
         String next;
@@ -43,9 +43,9 @@ public class Calories {
             } else if(j > numberThree){
                 numberThree = j;
             }
-            System.out.println(numberOne+numberThree+numberTwo);
+            
         }
-
+        System.out.println(numberOne+numberThree+numberTwo);
 
         // FOR THE LARGEST NUMBER
         // int largestNumber = 0;
