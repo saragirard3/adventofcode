@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Compartments{
@@ -53,7 +54,9 @@ public class Compartments{
         br.close();
         // System.out.println(totalCount);
 
-        createElfGroups(dataByLines);
+        //2
+        createElfGroups(dataByLines, priorities);
+
     }
 
 
@@ -67,16 +70,73 @@ public class Compartments{
         return priorities;
     }
 
-    public static void createElfGroups(HashMap<Integer, String> dataByLines){
+    /**
+     * @param dataByLines
+     * @param priorities
+     */
+    public static void createElfGroups(HashMap<Integer, String> dataByLines, HashMap<Integer,String> priorities){
+        int total = 0;
+        String currentFirst = "";
+        ArrayList<String> secondLetter = new ArrayList<String>();
+        String finalLetter = "";
+        String sharedLetter = "";
+        String[] splitString;
         for (Integer i : dataByLines.keySet()){
+            int index = 0;
+            
             String j = dataByLines.get(i);
             if (i%3==0){
-                
+                splitString = j.split("");
+                for(int k = 0; k < splitString.length;k++){
+                boolean test = currentFirst.contains(splitString[k]);
+                if(test){
+                    finalLetter = splitString[k];
+                    sharedLetter(secondLetter,finalLetter,sharedLetter);
+                    for (Integer set : priorities.keySet()){
+                        String val = priorities.get(i);
+                        test = sharedLetter.contains(val);
+                        if (test){
+                            total += set;
+                        }
+                    }
+                    secondLetter.clear();
+                    break;
+                }
+            }
             } else if (i%2==0){
-
+                splitString = j.split("");
+                for(int sec = 0; i < splitString.length;sec++){
+                boolean test = currentFirst.contains(splitString[sec]);
+                if(test){
+                    secondLetter.add(splitString[sec]);
+                    break;
+                }
+            }
             } else{
-
+                currentFirst = j;
             }
         }
+
+        System.out.println(total);
     }
+
+
+
+    public static String sharedLetter(ArrayList<String> secondLetter, String finalLetter, String sharedLetter){
+        System.out.println("secondLetter:  "+secondLetter);
+        System.out.println("finalLetter:  "+finalLetter);
+        System.out.println("sharedLetter:  "+sharedLetter);
+
+        for(int i=0; i<secondLetter.size();i++){
+            if(secondLetter.get(i)==finalLetter){
+                sharedLetter = finalLetter;
+                return sharedLetter;
+            }
+        }
+
+        System.out.println("no common letter");
+        return null;
+    }
+
+
 }
